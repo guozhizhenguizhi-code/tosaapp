@@ -1,109 +1,28 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>高知県の心霊スポットマップ</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <title>高知県 心霊スポットマップ</title>
+
+  <!-- Leaflet CSS -->
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+  />
+
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- ヘッダー -->
-    <header id="header">
-        <div class="header-content">
-            <h1>👻 高知県の心霊スポットマップ 👻</h1>
-            <p class="subtitle">※注意: 実際の訪問は危険です。私有地への侵入は法律違反となります。</p>
-        </div>
-    </header>
+  <header>
+    <h1>👻 高知県 心霊スポットマップ</h1>
+    <p>※ Leafletを使用した非公式マップ</p>
+  </header>
 
-    <!-- メインコンテナ -->
-    <div id="container">
-        <!-- サイドバー -->
-        <aside id="sidebar">
-            <!-- 検索・フィルター -->
-            <div class="filter-section">
-                <input type="text" id="search-input" placeholder="🔍 スポット名で検索...">
-                <select id="type-filter">
-                    <option value="all">すべてのタイプ</option>
-                    <option value="廃墟">🏚️ 廃墟</option>
-                    <option value="橋">🌉 橋</option>
-                    <option value="トンネル">🚇 トンネル</option>
-                    <option value="岬">🏔️ 岬</option>
-                    <option value="神社">⛩️ 神社</option>
-                    <option value="公園">🌳 公園</option>
-                    <option value="海岸">🌊 海岸</option>
-                </select>
-            </div>
+  <div id="map"></div>
 
-            <!-- スポットリスト -->
-            <div id="spot-list"></div>
-
-            <!-- 凡例 -->
-            <div class="legend">
-                <div class="legend-title">📍 凡例</div>
-                <div class="legend-item">🏚️ 廃墟系スポット</div>
-                <div class="legend-item">🌉 橋・トンネル</div>
-                <div class="legend-item">🏔️ 岬・公園</div>
-                <div class="legend-item">⛩️ 神社・寺院</div>
-                <div class="legend-item">🌊 海岸</div>
-            </div>
-
-            <!-- 統計情報 -->
-            <div class="stats">
-                <div class="stats-title">📊 統計情報</div>
-                <div id="stats-content">
-                    <div class="stat-item">
-                        <span class="stat-label">総スポット数:</span>
-                        <span class="stat-value" id="total-spots">0</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-label">表示中:</span>
-                        <span class="stat-value" id="visible-spots">0</span>
-                    </div>
-                </div>
-            </div>
-        </aside>
-
-        <!-- 地図エリア -->
-        <main id="map-container">
-            <div id="map"></div>
-            
-            <!-- コントロールパネル -->
-            <div class="map-controls">
-                <button id="reset-map" class="control-btn" title="マップをリセット">
-                    🔄 リセット
-                </button>
-                <button id="toggle-sidebar" class="control-btn" title="サイドバーを切り替え">
-                    ☰ メニュー
-                </button>
-            </div>
-
-            <!-- ローディング表示 -->
-            <div id="loading" class="loading">
-                <div class="loading-spinner"></div>
-                <p>地図を読み込み中...</p>
-            </div>
-        </main>
-    </div>
-
-    <!-- フッター -->
-    <footer id="footer">
-        <p>&copy; 2026 高知県心霊スポットマップ | データは参考情報です</p>
-    </footer>
-
-    <!-- モーダル（詳細情報） -->
-    <div id="modal" class="modal">
-        <div class="modal-content">
-            <span class="modal-close">&times;</span>
-            <div id="modal-body"></div>
-        </div>
-    </div>
-
-    <!-- Google Maps API -->
-    <script async defer 
-        src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY_HERE&callback=initMap&language=ja">
-    </script>
-    
-    <!-- アプリケーションスクリプト -->
-    <script src="app.js"></script>
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
+
