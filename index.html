@@ -1,1 +1,90 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>高知県 心霊スポット図鑑</title>
+  <style>
+    body {
+      font-family: "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+      background: #0f0f0f;
+      color: #eee;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      color: #ff4d4d;
+    }
+    .note {
+      font-size: 0.9em;
+      color: #ccc;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    .spot {
+      background: #1e1e1e;
+      border: 1px solid #333;
+      border-radius: 8px;
+      padding: 15px;
+      margin-bottom: 15px;
+      cursor: pointer;
+    }
+    .spot:hover {
+      background: #2a2a2a;
+    }
+    .spot h2 {
+      margin: 0;
+      font-size: 1.1em;
+      color: #ff8080;
+    }
+    .description {
+      display: none;
+      margin-top: 10px;
+      font-size: 0.95em;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+
+<h1>👻 高知県 心霊スポット（噂）</h1>
+
+<div class="note">
+  ※ ここに掲載されている内容は都市伝説・噂レベルの情報であり、<br>
+  実在の人物・団体・地域を誹謗中傷する意図はありません。
+</div>
+
+<div class="spot" onclick="toggle(this)">
+  <h2>① 旧○○トンネル（高知県内某所）</h2>
+  <div class="description">
+    深夜に人影を見た、車のエンジンが止まるなどの噂があるとされる場所。
+    特に雨の日に怪現象が起きやすいという話が語られている。
+  </div>
+</div>
+
+<div class="spot" onclick="toggle(this)">
+  <h2>② 海沿いの廃ホテル跡</h2>
+  <div class="description">
+    すでに建物は解体されたが、夜になると写真に白い影が写るという
+    都市伝説が残っている。
+  </div>
+</div>
+
+<div class="spot" onclick="toggle(this)">
+  <h2>③ 山中の旧集落跡</h2>
+  <div class="description">
+    人の気配や足音が聞こえるという噂があり、地元では
+    「夜に近づかない方がいい場所」として語られている。
+  </div>
+</div>
+
+<script>
+  function toggle(element) {
+    const desc = element.querySelector(".description");
+    desc.style.display = desc.style.display === "block" ? "none" : "block";
+  }
+</script>
+
+</body>
+</html>
 
