@@ -1,73 +1,33 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta charset="UTF-8">
-<title>高知県 心霊スポットマップ（Google Maps）</title>
-
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<style>
-body {
-  margin: 0;
-  background: #050505;
-  color: #eee;
-  font-family: Meiryo, sans-serif;
-}
-
-/* ヘッダー */
-header {
-  position: fixed;
-  top: 0;
-  width: 100%;
-  height: 60px;
-  background: rgba(0,0,0,0.9);
-  color: #ff4d4d;
-  text-align: center;
-  line-height: 60px;
-  z-index: 1000;
-  box-shadow: 0 2px 8px rgba(255,0,0,0.4);
-}
-
-/* マップ */
-#map {
-  position: absolute;
-  top: 60px;
-  bottom: 0;
-  width: 100%;
-}
-
-/* 注意書き */
-.notice {
-  position: fixed;
-  bottom: 10px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(0,0,0,0.8);
-  color: #ccc;
-  font-size: 0.75em;
-  padding: 6px 14px;
-  border-radius: 20px;
-  z-index: 1000;
-}
-</style>
+  <meta charset="UTF-8">
+  <title>高知県 心霊スポットマップ</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: sans-serif;
+    }
+    #map {
+      width: 100%;
+      height: 100vh;
+    }
+  </style>
 </head>
-
 <body>
 
-<header>👻 高知県 心霊スポットマップ（都市伝説）</header>
 <div id="map"></div>
 
-<div class="notice">
-  ※ 本アプリは都市伝説・噂を紹介する学習用コンテンツです
-</div>
-
 <script>
-function initMap() {
-
-  const centerKochi = { lat: 33.5597, lng: 133.5311 };
-
-  const map = new google.maps.Map(document.getElementById("map"), {
-    center: centerKochi,
-    zoom: 9,
-    mapTypeControl: false,
-    streetViewControl: false,
+  // 心霊スポットデータ（サンプル）
+  const hauntedSpots = [
+    {
+      name: "旧○○トンネル",
+      lat: 33.5597,
+      lng: 133.5311,
+      description: "夜中に人影が現れるという噂。"
+    },
+    {
+      name: "○○廃病院跡",
+      lat: 33.5073,
+      l
