@@ -2,32 +2,43 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>高知県 心霊スポットマップ</title>
+  <title>高知絶景ポモドーロタイマー</title>
   <style>
     body {
       margin: 0;
-      font-family: sans-serif;
+      font-family: "Segoe UI", sans-serif;
+      background: #111;
+      color: white;
+      text-align: center;
     }
-    #map {
+
+    #background {
+      position: fixed;
+      top: 0;
+      left: 0;
       width: 100%;
-      height: 100vh;
+      height: 100%;
+      background-size: cover;
+      background-position: center;
+      filter: brightness(0.6);
+      z-index: -1;
+      transition: background-image 1s ease;
     }
-  </style>
-</head>
-<body>
 
-<div id="map"></div>
+    .container {
+      padding-top: 15vh;
+    }
 
-<script>
-  // 心霊スポットデータ（サンプル）
-  const hauntedSpots = [
-    {
-      name: "旧○○トンネル",
-      lat: 33.5597,
-      lng: 133.5311,
-      description: "夜中に人影が現れるという噂。"
-    },
-    {
-      name: "○○廃病院跡",
-      lat: 33.5073,
-      l
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 10px;
+    }
+
+    #phase {
+      font-size: 1.2rem;
+      margin-bottom: 20px;
+    }
+
+    #timer {
+      font-size: 4rem;
+      margin-
