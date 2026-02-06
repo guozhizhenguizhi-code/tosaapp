@@ -1,47 +1,145 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <title>高知県 心霊スポットマップ</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Functional Task Timer</title>
+    <style>
+        :root {
+            --bg: #f0f2f5; --card: #ffffff; --text: #2f2f2f;
+            --primary: #ff6b6b; --secondary: #4ecdc4; --accent: #ddd;
+        }
+        /* ナイトモード設定 */
+        body.dark-mode {
+            --bg: #1a1a1a; --card: #2d2d2d; --text: #e0e0e0;
+            --accent: #444; --secondary: #00adb5;
+        }
+        body { background-color: var(--bg); color: var(--text); font-family: sans-serif; transition: 0.3s; display: flex; flex-direction: column; align-items: center; padding: 20px; }
+        .container { display: flex; gap: 20px; max-width: 900px; width: 100%; flex-wrap: wrap; }
+        .card { background: var(--card); padding: 2rem; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); flex: 1; min-width: 320px; }
+        
+        .timer-display { font-size: 5rem; font-weight: bold; text-align: center; margin: 20px 0; font-variant-numeric: tabular-nums; }
+        .controls, .settings { display: flex; gap: 10px; justify-content: center; margin-bottom: 20px; }
+        input, select { background: var(--card); color: var(--text); border: 1px solid var(--accent); padding: 8px; border-radius: 5px; }
+        button { padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; transition: 0.2s; }
+        
+        .btn-start { background-color: var(--secondary); color: white; }
+        .btn-theme { margin-bottom: 20px; background-color: var(--accent); color: var(--text); }
 
-  <!-- Leaflet CSS -->
-  <link
-    rel="stylesheet"
-    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-  />
+        .task-input-group { display: flex; gap: 5px; margin-bottom: 15px; }
+        ul { list-style: none; padding: 0; }
+        li { 
+            background: var(--bg); margin-bottom: 8px; padding: 12px; border-radius: 8px; 
+            display: flex; justify-content: space-between; align-items: center; border-left: 6px solid #ccc;
+        }
+        /* 重要度別の色 */
+        li.high { border-left-color: #ff6b6b; }
+        li.mid  { border-left-color: #ffd93d; }
+        li.low  { border-left-color: #6bc1ff; }
+        .task-done { text-decoration: line-through; opacity: 0.5; }
+    </style>
+</head>
+<body>
 
-  <style>
-    body {
-      margin: 0;
-      font-family: "Hiragino Kaku Gothic ProN", sans-serif;
-      background: #111;
-      color: #eee;
+<button class="btn-theme" onclick="toggleTheme()">🌙 ナイトモード切替</button>
+
+<div class="container">
+    <div class="card">
+        <h2>⏱️ Timer</h2>
+        <div class="settings">
+            <input type="number" id="mIn" value="25" min="0" style="width:50px">分
+            <input type="number" id="sIn" value="0" min="0" max="59" style="width:50px">秒
+        </div>
+        <div class="timer-display" id="disp">25:00</div>
+        <div class="controls">
+            <button class="btn-start" id="startBtn" onclick="toggleTimer()">スタート</button>
+            <button onclick="resetTimer()">リセット</button>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>📝 Tasks</h2>
+        <div class="task-input-group">
+            <input type="text" id="tIn" placeholder="タスクを入力..." style="flex:1">
+            <select id="pIn">
+                <option value="high">高</option>
+                <option value="mid" selected>中</option>
+                <option value="low">低</option>
+            </select>
+            <button class="btn-start" onclick="addTask()">追加</button>
+        </div>
+        <ul id="list"></ul>
+    </div>
+</div>
+
+<script>
+    let timer, timeLeft, isRunning = false;
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+    // アラーム音の生成（ビープ音）
+    function playSound() {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.connect(gain); gain.connect(audioCtx.destination);
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(880, audioCtx.currentTime); // ラの音
+        gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+        osc.start();
+        osc.stop(audioCtx.currentTime + 1.5); // 1.5秒鳴らす
     }
 
-    header {
-      background: #000;
-      padding: 1rem;
-      text-align: center;
-      border-bottom: 2px solid crimson;
+    function updateDisp() {
+        const m = Math.floor(timeLeft / 60), s = timeLeft % 60;
+        document.getElementById('disp').textContent = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
     }
 
-    header h1 {
-      margin: 0;
-      font-size: 1.4rem;
+    function toggleTimer() {
+        if (isRunning) {
+            clearInterval(timer);
+            document.getElementById('startBtn').textContent = '再開';
+        } else {
+            if (!timeLeft) timeLeft = parseInt(document.getElementById('mIn').value) * 60 + parseInt(document.getElementById('sIn').value);
+            timer = setInterval(() => {
+                if (--timeLeft < 0) {
+                    clearInterval(timer); 
+                    playSound(); 
+                    alert("時間になりました！"); 
+                    resetTimer(); 
+                    return;
+                }
+                updateDisp();
+            }, 1000);
+            document.getElementById('startBtn').textContent = '停止';
+        }
+        isRunning = !isRunning;
     }
 
-    header p {
-      margin: 0.3rem 0 0;
-      font-size: 0.9rem;
-      color: #aaa;
+    function resetTimer() {
+        clearInterval(timer); isRunning = false;
+        timeLeft = parseInt(document.getElementById('mIn').value) * 60 + parseInt(document.getElementById('sIn').value);
+        updateDisp();
+        document.getElementById('startBtn').textContent = 'スタート';
     }
 
-    #map {
-      height: calc(100vh - 100px);
-      width: 100%;
+    function addTask() {
+        const val = document.getElementById('tIn').value;
+        const priority = document.getElementById('pIn').value;
+        if (!val) return;
+        const li = document.createElement('li');
+        li.className = priority;
+        li.innerHTML = `<span>${val}</span><input type="checkbox" onchange="this.parentElement.classList.toggle('task-done')">`;
+        document.getElementById('list').prepend(li); // 新しいものを上に追加
+        document.getElementById('tIn').value = '';
     }
 
-    /* ポップアップをホラーテイストに */
-    .leaflet-popup-content-wrapper {
-      background: #111;
-      colo
+    function toggleTheme() {
+        document.body.classList.toggle('dark-mode');
+    }
+
+    // 数値変更時にタイマーをリセット
+    document.getElementById('mIn').onchange = resetTimer;
+    document.getElementById('sIn').onchange = resetTimer;
+    resetTimer();
+</script>
+</body>
+</html>
